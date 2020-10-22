@@ -13,7 +13,7 @@ import utils.GetHTML;
 public class TestMain {
 
     public static void main(String[] args) throws Exception {
-        String[] urls = {"https://www.made.com/avalon-3-seater-sofa-steel-boucle",};
+        String[] urls = {"https://www.etsy.com/c/home-and-living/furniture",};
         for (int i = 0; i < urls.length; i++) {
             String url = urls[i];
             GetHTML.getHTMLToFile("output" + (i + 1) + ".html", url);

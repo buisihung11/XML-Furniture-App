@@ -41,7 +41,7 @@ public class TextUtils {
         Matcher matcherSvg = Pattern.compile("<svg.*?</svg>").matcher(src);
         while (matcherSvg.find()) {
             System.out.println("FOUNDED SVG");
-            tmp = matcher.group(0);
+            tmp = matcherSvg.group(0);
             result = result.replace(tmp, "");
         }
         // end remove svg
