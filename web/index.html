@@ -6,11 +6,39 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Home-Page</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .todo-done{
+                text-decoration: line-through;
+                color: grey;
+            }
+        </style>
+
     </head>
     <body>
-        <div>TODO write content</div>
+        <h1>TODO:</h1>
+        <ol>
+            <li class="todo todo-done">Tao Util JAXB</li> 
+            <li class="todo todo-done">Tao Util StateMachine</li> 
+            <li class="todo">Tao Util ConnectDB</li> 
+        </ol>
+        <p>XSL,PDF xem trong Slide</p>
+        <p>Dau tuan 8 se cham bai</p>
+        <p>Demo WebService voi JPA</p>
+        <script>
+            let todos = document.getElementsByClassName("todo");
+            console.log(todos);
+            for (var todo of todos) {
+                todo.addEventListener('click', function () {
+                    if (todo.classList.contains('todo-done')) {
+                        todo.classList.remove('todo-done');
+                    } else {
+                        todo.classList.add('todo-done');
+                    }
+                });
+            }
+        </script>
     </body>
 </html>

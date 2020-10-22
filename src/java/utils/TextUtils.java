@@ -24,28 +24,27 @@ public class TextUtils {
 //        
 //        src= getBody(src);
 //        System.out.println(src);
-        src = (new XmlSyntaxChecker()).check(src);
+//        src = (new XmlSyntaxChecker()).check(src);
         return src;
     }
 
     public static String getBody(String src) {
 
-//        String result = src;
-//        String expression ="<body.*?</body>";
-//        Pattern pattern = Pattern.compile(expression);
-//        Matcher matcher = pattern.matcher(result);
-//        
-//        if(matcher.find()){
-//            result = matcher.group(0);
-//        }
-//        return result;
         Matcher matcher = Pattern.compile("<head.*?</head>").matcher(src);
         String result = src, tmp = "";
         if (matcher.find()) {
+            System.out.println("FOUNDED HEAD");
             tmp = matcher.group(0);
             result = result.replace(tmp, "");
         }
         // end remove head
+        Matcher matcherSvg = Pattern.compile("<svg.*?</svg>").matcher(src);
+        while (matcherSvg.find()) {
+            System.out.println("FOUNDED SVG");
+            tmp = matcher.group(0);
+            result = result.replace(tmp, "");
+        }
+        // end remove svg
         String expression = "<body.*?</body>";
         matcher = Pattern.compile(expression).matcher(result);
         if (matcher.find()) {

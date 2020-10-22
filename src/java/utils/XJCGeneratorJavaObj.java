@@ -21,11 +21,12 @@ import org.xml.sax.SAXParseException;
 public class XJCGeneratorJavaObj {
 
     public static String JAVA_CLASS_OUTPUT = "src/java/";
+    public static String PACKAGE_NAME = "com.dto";
 
     public static void convertToJavaClass(String fileInputPath) {
         try {
             // tu xsd build thanh Java obj
-            String output = "src/java/";
+            String output = JAVA_CLASS_OUTPUT;
             SchemaCompiler sc = XJC.createSchemaCompiler();
             sc.setErrorListener(new ErrorListener() {
                 @Override
@@ -48,7 +49,7 @@ public class XJCGeneratorJavaObj {
                     System.out.println("ERROR" + saxpe.getMessage());
                 }
             });
-            sc.forcePackageName("demo");
+            sc.forcePackageName(PACKAGE_NAME);
 //            File schema = new File("customer.xsd");
             File schema = new File(fileInputPath);
             InputSource is = new InputSource(schema.toURI().toString());
