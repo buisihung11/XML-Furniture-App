@@ -7,11 +7,13 @@ package utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -34,6 +36,15 @@ public class XMLUtils {
     public static XMLEventReader parseFileToXMLEvent(String filePath) throws FileNotFoundException, XMLStreamException {
         XMLInputFactory factory = XMLInputFactory.newInstance();
         XMLEventReader reader = factory.createXMLEventReader(new FileInputStream(filePath));
+        return reader;
+    }
+
+    public static XMLEventReader parseStringToXMLEvent(String xml) throws FileNotFoundException, XMLStreamException, UnsupportedEncodingException {
+        byte[] byteArray = xml.getBytes("UTF-8");
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArray);
+        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        inputFactory.setProperty(XMLInputFactory.IS_VALIDATING, false);
+        XMLEventReader reader = inputFactory.createXMLEventReader(inputStream);
         return reader;
     }
 
