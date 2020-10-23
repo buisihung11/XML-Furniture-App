@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<students>
+    <student id="SE01" class="se1274">
+        <lastname>
+            Dang
+        </lastname>
+        <middlename>
+            Quoc
+        </middlename>
+        <firstname>
+            Thai
+        <!--</firstname>-->
+        <sex>
+            1
+        </sex>
+        <password>
+            123456
+        </password>
+        <address>
+            tpHCM
+        </address>
+        <status>
+            studying
+        </status>
+    </student>
+    <student id="SE02" class="se1274">
+        <lastname>
+            Nguyen
+        </lastname>
+        <middlename>
+            Hieu
+        </middlename>
+        <firstname>
+            Liem
+        </firstname>
+        <sex>
+            2
+        </sex>
+        <password>
+            1234956
+        </password>
+        <address>
+            tpHCM
+        </address>
+        <status>
+            dropout
+        </status>
+    </student>
+        <student id="SE03" class="se1274">
+        <lastname>
+            Nguyen
+        </lastname>
+        <middlename>
+            Hieu
+        </middlename>
+        <firstname>
+            Hoa
+        </firstname>
+        <sex>
+            3
+        </sex>
+        <password>
+            1230456
+        </password>
+        <address>
+            tpHCM
+        </address>
+        <status>
+            break
+        </status>
+    </student>
+</students>
