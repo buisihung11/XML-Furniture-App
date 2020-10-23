@@ -40,7 +40,7 @@ public class TextUtils {
         // end remove head
         Matcher matcherSvg = Pattern.compile("<svg.*?</svg>").matcher(src);
         while (matcherSvg.find()) {
-            System.out.println("FOUNDED SVG");
+//            System.out.println("FOUNDED SVG");
             tmp = matcherSvg.group(0);
             result = result.replace(tmp, "");
         }
