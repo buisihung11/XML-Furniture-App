@@ -23,14 +23,9 @@ import java.nio.charset.StandardCharsets;
 public class GetHTML {
 
     public static void getHTMLToFile(String filePath, String uri) {
-        Writer writer = null;
         try {
             String src = Internet.getHTML(uri);
-            writer = new BufferedWriter(new OutputStreamWriter(
-                    new FileOutputStream(filePath), "UTF-8"));
-            src = TextUtils.refineHtml(src);
-            writer.write(src);
-            writer.close();
+            FileUtil.saveSrcToFile(filePath, src);
         } catch (Exception e) {
             e.printStackTrace();
         }

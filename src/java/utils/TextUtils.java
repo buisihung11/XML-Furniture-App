@@ -30,7 +30,7 @@ public class TextUtils {
 
     public static String getBody(String src) {
 
-        Matcher matcher = Pattern.compile("<head.*?</head>").matcher(src);
+        Matcher matcher = Pattern.compile("(?s)<head.*?</head>(?s)").matcher(src);
         String result = src, tmp = "";
         if (matcher.find()) {
             System.out.println("FOUNDED HEAD");
@@ -38,14 +38,14 @@ public class TextUtils {
             result = result.replace(tmp, "");
         }
         // end remove head
-        Matcher matcherSvg = Pattern.compile("<svg.*?</svg>").matcher(src);
+        Matcher matcherSvg = Pattern.compile("(?s)<svg.*?</svg>(?s)").matcher(src);
         while (matcherSvg.find()) {
 //            System.out.println("FOUNDED SVG");
             tmp = matcherSvg.group(0);
             result = result.replace(tmp, "");
         }
         // end remove svg
-        String expression = "<body.*?</body>";
+        String expression = "(?s)<body.*?</body>(?s)";
         matcher = Pattern.compile(expression).matcher(result);
         if (matcher.find()) {
             result = matcher.group(0);
@@ -57,22 +57,41 @@ public class TextUtils {
         String result = src;
 
         //remove all <script> tags
-        String expression = "<script.*?</script>";
+        String expression = "(?s)<script.*?</script>(?s)";
         result = result.replaceAll(expression, "");
-        
+
         //remove all <noscript> tags
-        String noScript = "<noscript.*?</noscript>";
+        String noScript = "(?s)<noscript.*?</noscript>(?s)";
         result = result.replaceAll(noScript, "");
 
         //remove all commands
-        expression = "<!--.*?-->";
+        expression = "(?s)<!--.*?-->(?s)";
         result = result.replaceAll(expression, "");
 
         //remove all whitespace
-        expression = "&nbsp;?";
+        expression = "(?s)&nbsp;?(?s)";
         result = result.replaceAll(expression, "");
 
         return result;
+    }
+
+    public static String removeSelfClosing(String src) {
+        for (String inlineTag : INLINE_TAGS) {
+            String reg = "<\\s*(" + inlineTag + ")([^>]*)\\/?\\s*>";
+            Pattern p = Pattern.compile(reg);
+            Matcher m = p.matcher(src);
+            src = m.replaceAll("");
+//            while (m.find()) {
+//                String group1 = m.group(2);
+//                System.out.println("Group 1 " + group1);
+//                if (group1.trim().equals("/")) {
+//                    src = m.replaceFirst("<$1></$1>");
+//                } else {
+//                    src = m.replaceFirst("<$1$2></$1>");
+//                }
+//            }
+        }
+        return src;
     }
 
     public static String replaceSelfClosing(String src) {
@@ -80,15 +99,16 @@ public class TextUtils {
             String reg = "<\\s*(" + inlineTag + ")([^>]*)\\/?\\s*>";
             Pattern p = Pattern.compile(reg);
             Matcher m = p.matcher(src);
-            while (m.find()) {
-                String group1 = m.group(2);
-                System.out.println("Group 1 " + group1);
-                if (group1.trim().equals("/")) {
-                    src = m.replaceFirst("<$1></$1>");
-                } else {
-                    src = m.replaceFirst("<$1$2></$1>");
-                }
-            }
+            src = m.replaceAll("<$1$2></$1>");
+//            while (m.find()) {
+//                String group1 = m.group(2);
+//                System.out.println("Group 1 " + group1);
+//                if (group1.trim().equals("/")) {
+//                    src = m.replaceFirst("<$1></$1>");
+//                } else {
+//                    src = m.replaceFirst("<$1$2></$1>");
+//                }
+//            }
         }
         return src;
     }
