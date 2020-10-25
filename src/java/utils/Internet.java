@@ -21,7 +21,7 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class Internet {
-
+    
     public static String getHTML(String uri) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
         try {
@@ -30,9 +30,9 @@ public class Internet {
             yc.setReadTimeout(20 * 1000);
             yc.setConnectTimeout(20 * 1000);
             yc.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36");
-
+            
             InputStream is = yc.getInputStream();
-
+            
             String line;
             BufferedReader bufferReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             while ((line = bufferReader.readLine()) != null) {

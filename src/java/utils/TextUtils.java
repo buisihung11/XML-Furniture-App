@@ -25,13 +25,6 @@ public class TextUtils {
     public static String refineHtml(String src) {
         src = getBody(src);
         src = removeMiscellaneousTags(src);
-
-//        XmlSyntaxChecker xmlSyntaxChecker = new XmlSyntaxChecker();
-//        src=xmlSyntaxChecker.check(src);
-//        
-//        src= getBody(src);
-//        System.out.println(src);
-//        src = (new XmlSyntaxChecker()).check(src);
         return src;
     }
 
@@ -66,6 +59,10 @@ public class TextUtils {
         //remove all <script> tags
         String expression = "<script.*?</script>";
         result = result.replaceAll(expression, "");
+        
+        //remove all <noscript> tags
+        String noScript = "<noscript.*?</noscript>";
+        result = result.replaceAll(noScript, "");
 
         //remove all commands
         expression = "<!--.*?-->";

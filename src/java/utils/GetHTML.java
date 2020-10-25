@@ -36,4 +36,16 @@ public class GetHTML {
         }
     }
 
+    public static String getHTMLToString(String uri) {
+        Writer writer = null;
+        try {
+            String src = Internet.getHTML(uri);
+            src = TextUtils.refineHtml(src);
+            return src;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
