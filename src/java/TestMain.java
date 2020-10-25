@@ -48,7 +48,7 @@ public class TestMain {
                 + "<students>\n"
                 + "    <student id=\"SE01\" class=\"se1274\">\n"
                 + "	<img data-listing-card-listing-image=\"\" src=\"https://i.etsystatic.com/25510629/d/il/b3a5b9/2652782619/il_340x270.2652782619_om0y.jpg?version=0\" class=\"width-full wt-height-full display-block position-absolute \" alt=\"\" >\n"
-                + "        <lastname required>\n"
+                + "        <lastname>\n"
                 + "            Dang\n"
                 + "        </lastname>\n"
                 + "        <middlename>\n"
@@ -122,7 +122,9 @@ public class TestMain {
         ParseXMLNotWellFormed parseXMl = new ParseXMLNotWellFormed();
         parseXMl.setSrc(src);
         parseXMl.autoParseFileEventNotWellForm();
-        XMLUtils.printAllData(parseXMl.getlEvents().iterator());
+        System.out.println("PARSEDDDDD");
+//        XMLUtils.printAllData(parseXMl.getlEvents().iterator());
+        System.out.println(parseXMl.getParsedSrc());
 
 //        Spider esty = new EstySpider("ESTY-SPIDER", "https://www.etsy.com/c/home-and-living/furniture");
 //        esty.startExecution();
@@ -140,7 +142,7 @@ class EstySpider extends Spider<Object> {
     public void parse(String src) {
         try {
             System.out.println("SRC: " + src);
-            Document doc = DOMParser.parseStringToDom(src);
+
 //            if(doc != null)
 //            {
 //                XPath xPath = DOMParser.createPath();

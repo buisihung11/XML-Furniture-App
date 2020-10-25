@@ -5,6 +5,8 @@
  */
 package utils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import xmlchecker.XmlSyntaxChecker;
@@ -14,6 +16,11 @@ import xmlchecker.XmlSyntaxChecker;
  * @author DK
  */
 public class TextUtils {
+
+    public static final List<String> INLINE_TAGS = Arrays.asList(
+            "area", "base", "br", "col", "command", "embed", "hr", "img", "input",
+            "keygen", "link", "meta", "param", "source", "track", "wbr"
+    );
 
     public static String refineHtml(String src) {
         src = getBody(src);
@@ -69,5 +76,23 @@ public class TextUtils {
         result = result.replaceAll(expression, "");
 
         return result;
+    }
+
+    public static String replaceSelfClosing(String src) {
+        for (String inlineTag : INLINE_TAGS) {
+            String reg = "<\\s*(" + inlineTag + ")([^>]*)\\/?\\s*>";
+            Pattern p = Pattern.compile(reg);
+            Matcher m = p.matcher(src);
+            while (m.find()) {
+                String group1 = m.group(2);
+                System.out.println("Group 1 " + group1);
+                if (group1.trim().equals("/")) {
+                    src = m.replaceFirst("<$1></$1>");
+                } else {
+                    src = m.replaceFirst("<$1$2></$1>");
+                }
+            }
+        }
+        return src;
     }
 }
