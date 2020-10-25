@@ -5,12 +5,24 @@
  */
 package parsers;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,6 +34,7 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import org.xml.sax.SAXException;
+import utils.GetHTML;
 import utils.TextUtils;
 import utils.XMLUtils;
 
@@ -43,102 +56,12 @@ public class ParseXMLNotWellFormed {
     }
 
     public static void main(String[] args) throws Exception {
-        String filePath = "StudentAccount.xml";
+//        GetHTML.getHTMLToFile("test.txt", "https://www.onekingslane.com/c/furniture.do");
         System.out.println("BAT DAU PARSE");
-
-        String src = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                + "\n"
-                + "<students>\n"
-                + "    <student id=\"SE01\" class=\"se1274\">\n"
-                + "	<img data-listing-card-listing-image=\"\" src=\"https://i.etsystatic.com/25510629/d/il/b3a5b9/2652782619/il_340x270.2652782619_om0y.jpg?version=0\" class=\"width-full wt-height-full display-block position-absolute \" alt=\"\" >\n"
-                + "        <lastname>\n"
-                + "            Dang\n"
-                + "        </lastname>\n"
-                + "        <middlename>\n"
-                + "            Quoc\n"
-                + "        </middlename>\n"
-                + "        <firstname>\n"
-                + "            Thai\n"
-                + "        <!--</firstname>-->\n"
-                + "        <sex>\n"
-                + "            1\n"
-                + "        </sex>\n"
-                + "        <password>\n"
-                + "            123456\n"
-                + "        </password>\n"
-                + "        <address>\n"
-                + "            tpHCM\n"
-                + "        </address>\n"
-                + "		<br />\n"
-                + "        <status>\n"
-                + "            studying\n"
-                + "        </status>\n"
-                + "    </student>\n"
-                + "    <student id= \"SE02\" class=\"se1274\" >\n"
-                + "        <lastname>\n"
-                + "            Nguyen\n"
-                + "        </lastname>\n"
-                + "        <middlename>\n"
-                + "            Hieu\n"
-                + "        </middlename>\n"
-                + "        <firstname>\n"
-                + "            Liem\n"
-                + "        </firstname>\n"
-                + "        <sex>\n"
-                + "            2\n"
-                + "        </sex>\n"
-                + "        <password>\n"
-                + "            1234956\n"
-                + "        </password>\n"
-                + "        <address>\n"
-                + "            tpHCM\n"
-                + "        </address>\n"
-                + "        <status>\n"
-                + "            dropout\n"
-                + "        </status>\n"
-                + "    </student>\n"
-                + "        <student id=\"SE03\" class=\"se1274\">\n"
-                + "        <lastname>\n"
-                + "            Nguyen\n"
-                + "        </lastname>\n"
-                + "        <middlename>\n"
-                + "            Hieu\n"
-                + "        </middlename>\n"
-                + "        <firstname>\n"
-                + "            Hoa\n"
-                + "        </firstname>\n"
-                + "        <sex>\n"
-                + "            3\n"
-                + "        </sex>\n"
-                + "        <password>\n"
-                + "            1230456\n"
-                + "        </password>\n"
-                + "        <address>\n"
-                + "            tpHCM\n"
-                + "        </address>\n"
-                + "        <status>\n"
-                + "            break\n"
-                + "        </status>\n"
-                + "    </student>\n"
-                + "</students>";
-
-        try {
-            DOMParser.parseStringToDom(src);
-        } catch (ParserConfigurationException parseEx) {
-            parseEx.printStackTrace();
-        } catch (SAXException sax) {
-            sax.printStackTrace();
-        }
-
-//        ParseXMLNotWellFormed parseXMl = new ParseXMLNotWellFormed();
-//        parseXMl.setSrc(src);
+        ParseXMLNotWellFormed parseXMl = new ParseXMLNotWellFormed();
+        parseXMl.setSrc(GetHTML.getHTMLToString("https://www.onekingslane.com/c/furniture.do"));
 //        parseXMl.autoParseFileEventNotWellForm();
-//        System.out.println("PARSEDDDDD");
-////        XMLUtils.printAllData(parseXMl.getlEvents().iterator());
-//        System.out.println(parseXMl.getParsedSrc());
-
-//        Spider esty = new EstySpider("ESTY-SPIDER", "https://www.etsy.com/c/home-and-living/furniture");
-//        esty.startExecution();
+        System.out.println("PARSEDDDDD");
     }
 
     public void autoParseFileEventNotWellForm() throws FileNotFoundException, XMLStreamException, UnsupportedEncodingException {
@@ -148,9 +71,9 @@ public class ParseXMLNotWellFormed {
             reader = XMLUtils.parseFileToXMLEvent(filePath);
         } else {
             System.out.println("PARSE WITH SRC");
-            String temp = TextUtils.replaceSelfClosing(src);
+//            src = TextUtils.removeSelfClosing(src);
             // replace self-closing tag
-            reader = XMLUtils.parseStringToXMLEvent(temp);
+            reader = XMLUtils.parseStringToXMLEvent(src);
         }
 
         LinkedList<Integer> lStartTagPos = new LinkedList<Integer>();
@@ -198,6 +121,8 @@ public class ParseXMLNotWellFormed {
                     break;
                 }
             } catch (Exception e) {
+                System.out.println("PARSER LOI");
+                e.printStackTrace();
                 break;
             }
             if (event != null) {

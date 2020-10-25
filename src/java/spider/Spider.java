@@ -5,22 +5,28 @@
  */
 package spider;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import parsers.STAXParser;
+import utils.FileUtil;
+import utils.GetHTML;
 import utils.Internet;
 import utils.Pipeline;
+import utils.XMLUtils;
 
 /**
  *
  * @author Admin
  */
-public abstract class Spider<T> {
+public class Spider {
 
     public String name;
     public String startURL;
-    private T item;
+    public String src;
 
     public Spider(String name, String startURL) {
         this.name = name;
@@ -29,27 +35,30 @@ public abstract class Spider<T> {
 
     public void startExecution() throws IOException, Exception {
         System.out.println("START SPIDER " + name);
-        // get raw HTML
-        String rawHTML = Internet.getHTML(startURL);
-        // excution pipeline
-        String finalHTML = rawHTML;
-        Pipeline<String, String> transformSource = getPipeLine();
-        if (transformSource != null) {
-            finalHTML = transformSource.execute(rawHTML); // da well-form
-        }
-        
-        System.out.println("FINAL HTML: \n" + finalHTML + " \n");
-        // process final src to Items
-//        XMLEventReader eventReader = STAXParser.createSTAXCursorReaderFromString(finalHTML);
-//        item = parse(eventReader);
-        parse(finalHTML);
+        // 1. get raw HTML
+        System.out.println("1. DOWNLOAD FILE AND REFINED");
+        String rawHTML = GetHTML.getHTMLToString(startURL);
+        this.src = rawHTML;
     }
 
-    public T getItem() {
-        return item;
+    public void saveToFile(String filePath) {
+        FileUtil.saveSrcToFile(filePath, src);
     }
 
-    public abstract Pipeline<String, String> getPipeLine();
+    public XMLEventReader splitSrcToXML(String[] containerTag) throws IOException,
+            FileNotFoundException, UnsupportedEncodingException, XMLStreamException {
+        String splitedSrc = XMLUtils.splitSection(src, containerTag);
+        System.out.println("SPLITED: ");
+        System.out.println(splitedSrc);
+        return XMLUtils.parseStringToXMLEvent(splitedSrc);
+    }
 
-    public abstract void parse(String finalText);
+    public XMLEventReader splitSrcToXML(String[] containerTag, String[] beforeEndTag) throws IOException,
+            FileNotFoundException, XMLStreamException, UnsupportedEncodingException {
+        String splitedSrc = XMLUtils.splitSection(src, containerTag, beforeEndTag);
+        System.out.println("SPLITED: ");
+        System.out.println(splitedSrc);
+        return XMLUtils.parseStringToXMLEvent(splitedSrc);
+    }
+
 }
