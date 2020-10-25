@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
@@ -20,6 +21,7 @@ import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import org.xml.sax.SAXException;
 import utils.TextUtils;
 import utils.XMLUtils;
 
@@ -120,12 +122,20 @@ public class ParseXMLNotWellFormed {
                 + "    </student>\n"
                 + "</students>";
 
-        ParseXMLNotWellFormed parseXMl = new ParseXMLNotWellFormed();
-        parseXMl.setSrc(src);
-        parseXMl.autoParseFileEventNotWellForm();
-        System.out.println("PARSEDDDDD");
-//        XMLUtils.printAllData(parseXMl.getlEvents().iterator());
-        System.out.println(parseXMl.getParsedSrc());
+        try {
+            DOMParser.parseStringToDom(src);
+        } catch (ParserConfigurationException parseEx) {
+            parseEx.printStackTrace();
+        } catch (SAXException sax) {
+            sax.printStackTrace();
+        }
+
+//        ParseXMLNotWellFormed parseXMl = new ParseXMLNotWellFormed();
+//        parseXMl.setSrc(src);
+//        parseXMl.autoParseFileEventNotWellForm();
+//        System.out.println("PARSEDDDDD");
+////        XMLUtils.printAllData(parseXMl.getlEvents().iterator());
+//        System.out.println(parseXMl.getParsedSrc());
 
 //        Spider esty = new EstySpider("ESTY-SPIDER", "https://www.etsy.com/c/home-and-living/furniture");
 //        esty.startExecution();
