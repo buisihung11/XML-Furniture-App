@@ -37,6 +37,7 @@ public abstract class Spider<T> {
         if (transformSource != null) {
             finalHTML = transformSource.execute(rawHTML); // da well-form
         }
+        
         System.out.println("FINAL HTML: \n" + finalHTML + " \n");
         // process final src to Items
 //        XMLEventReader eventReader = STAXParser.createSTAXCursorReaderFromString(finalHTML);
